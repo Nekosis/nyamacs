@@ -1,0 +1,985 @@
+#+TITLE: Nyamacs
+#+AUTHOR: Nekosis
+#+DESCRIPTION: My personal configuration for GNU Emacs.
+#+STARTUP: showeverything
+#+OPTIONS: toc:2
+
+[[./images/nyamacs-logo.svg]]
+
+* TABLE OF CONTENTS :toc:
+- [[#foreword][FOREWORD]]
+- [[#installation][INSTALLATION]]
+- [[#important-programs-to-load-first][IMPORTANT PROGRAMS TO LOAD FIRST]]
+  - [[#elpaca-package-manager][Elpaca Package Manager]]
+  - [[#load-evil-mode][Load Evil Mode]]
+  - [[#general-keybindings][General Keybindings]]
+  - [[#which-key][Which-Key]]
+- [[#all-the-icons][ALL THE ICONS]]
+- [[#anaconda][ANACONDA]]
+- [[#autofmt][AUTOFMT]]
+- [[#buffer-move][BUFFER-MOVE]]
+- [[#company][COMPANY]]
+- [[#dashboard][DASHBOARD]]
+- [[#diminish][DIMINISH]]
+- [[#dired][DIRED]]
+- [[#disabled-or-modified-default-emacs-behavior][DISABLED OR MODIFIED DEFAULT EMACS BEHAVIOR]]
+  - [[#change-backup-and-autosave-file-location][Change Backup and Autosave File Location]]
+- [[#flycheck][FLYCHECK]]
+- [[#fonts][FONTS]]
+  - [[#setting-the-font-face][Setting the Font Face]]
+  - [[#zooming-inout][Zooming In/Out]]
+- [[#games][GAMES]]
+  - [[#tetris][Tetris]]
+- [[#graphical-user-interface-tweaks][GRAPHICAL USER INTERFACE TWEAKS]]
+  - [[#disable-menubar-toolbars-and-scrollbars][Disable Menubar, Toolbars and Scrollbars]]
+  - [[#display-line-numbers-and-truncated-lines][Display Line Numbers and Truncated Lines]]
+- [[#ivy-counsel][IVY (COUNSEL)]]
+- [[#neotree][NEOTREE]]
+- [[#org-mode][ORG MODE]]
+  - [[#enable-table-of-contents][Enable Table of Contents]]
+  - [[#enable-org-superstar][Enable Org Superstar]]
+  - [[#disable-electric-indent][Disable Electric Indent]]
+  - [[#hide-emphasis-markers][Hide Emphasis Markers]]
+  - [[#show-inline-images][Show Inline Images]]
+  - [[#source-code-block-tag-expansion][Source Code Block Tag Expansion]]
+- [[#projectile][PROJECTILE]]
+- [[#rainbow-mode][RAINBOW MODE]]
+- [[#shells-and-terminals][SHELLS AND TERMINALS]]
+  - [[#eshell][Eshell]]
+  - [[#vterm][Vterm]]
+  - [[#vterm-toggle][Vterm-Toggle]]
+- [[#sudo-edit][SUDO EDIT]]
+- [[#theme][THEME]]
+- [[#end-of-configuration][END OF CONFIGURATION]]
+
+* FOREWORD
+
+This is my personal configuration for GNU Emacs. Emacs is an amazing tool with extensive customization options. I consider it one of the best libre tools out there. Emacs is more than just a text editor; it's a lifestyle. If you want to read more about Emacs itself, feel free to check out the [[https://emacs.org/][GNU Emacs website]].
+
+This is my first ever Emacs configuration. I'm very grateful for the amazing programs and documentation in the Emacs community! Even as a young teenager, I was easily able to solve problems with my configuration on my own thanks to your amazing contributions... and maybe a /little/ ChatGPT, haha. I hope to use Emacs for years to come. Thank you all!
+
+This configuration was made with the help of DistroTube's awesome YouTube series entitled Configuring Emacs. You can watch it [[https://www.youtube.com/watch?v=d1fgypEiQkE&list=PL5--8gKSku15e8lXf7aLICFmAHQVo0KXX][here]]. This isn't a 1:1 recreation of DT's config from this series, however! I tried to put my own little spin on it.
+
+Thanks for checking out my configuration. Best of luck on your Emacs journey, everyone!
+
+/- Nekosis/
+
+* INSTALLATION
+
+This configuration is highly personalized to my needs. You will *definitely* want to customize it before using it yourself. A few *NOTE*​s before we continue:
+
++ This configuration is intended for GNU/Linux systems, and was written on an Arch Linux-based OS. Thus, Windows or macOS use is not supported.
++ Use within the terminal is not supported either. Nyamacs should always be ran as a GUI.
+
+If you've verified that this configuration is right for you, here are some general steps to follow:
+
+1. Clone this Git repository to ~/.config/emacs/. *DO NOT* use ~/.emacs.d/ as this config contains hardcoded references to the former. In fact, make sure ~/.emacs.d/ is not present at all as to not cause conflicts with Nyamacs.
+2. Before launching Emacs, open this file (config.org) in another text editor and read each section, and make modifications where necessary. Pay special attention to any *NOTE*​s that I may have left you. Please be thorough!
+3. After making all desired edits, install Emacs if you haven't already. Then, execute /usr/bin/emacs (*NOT* emacsclient).
+4. Wait for a second until all the Elpaca packages install. You will see that one hangs, vterm-toggle. This is normal. When you reach that point, close Emacs, killing any processes that are still running. Do not worry - this will not affect Emacs negatively.
+5. Re-execute /usr/bin/emacs. It will prompt you to build a dependency for Vterm. Answer yes and wait for the build to complete.
+6. After the build, press SPC-SPC to open the M-x prompt, and execute all-the-icons-install-fonts. This will install icon fonts that Emacs uses to the computer.
+7. After the fonts install, close Emacs once again.
+8. Add ~/usr/bin/emacs --daemon &~ to the startup applications of your window manager or desktop environment.
+9. Restart your computer.
+10. You are done! Whenever you want to use Emacs in the future, run ~emacsclient -c~.
+
+* IMPORTANT PROGRAMS TO LOAD FIRST
+
+** Elpaca Package Manager
+
+Elpaca is an Emacs package manager that replaces the built-in package.el.
+
+#+begin_src emacs-lisp 
+(defvar elpaca-installer-version 0.5)
+(defvar elpaca-directory
+  (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory
+  (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory
+  (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order
+  '(elpaca
+    :repo "https://github.com/progfolio/elpaca.git"
+    :ref nil
+    :files (:defaults (:exclude "extensions"))
+    :build (:not elpaca--activate-package)))
+(let* ((repo (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list
+   'load-path
+   (if (file-exists-p build)
+       build
+     repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28)
+      (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let ((buffer
+                  (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                 ((zerop
+                   (call-process "git"
+                                 nil
+                                 buffer
+                                 t
+                                 "clone"
+                                 (plist-get order :repo)
+                                 repo)))
+                 ((zerop
+                   (call-process "git"
+                                 nil
+                                 buffer
+                                 t
+                                 "checkout"
+                                 (or (plist-get order :ref) "--"))))
+                 (emacs (concat invocation-directory invocation-name))
+                 ((zerop
+                   (call-process
+                    emacs
+                    nil
+                    buffer
+                    nil
+                    "-Q"
+                    "-L"
+                    "."
+                    "--batch"
+                    "--eval"
+                    "(byte-recompile-directory \".\" 0 'force)")))
+                 ((require 'elpaca))
+                 ((elpaca-generate-autoloads "elpaca" repo)))
+          (progn
+            (message "%s" (buffer-string))
+            (kill-buffer buffer))
+          (error
+           "%s"
+           (with-current-buffer buffer
+             (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
+#+end_src
+
+** Load Evil Mode
+
+Evil Mode provides Vim-like keybindings for Emacs.
+
+#+begin_src emacs-lisp
+;; Install use-package support
+(elpaca
+ elpaca-use-package
+ ;; Enable :elpaca use-package keyword
+ (elpaca-use-package-mode)
+ ;; Assume :elpaca t unless otherwise specified
+ (setq elpaca-use-package-by-default t))
+
+;; Block until current queue processed
+(elpaca-wait)
+
+;; Install Evil and related packages
+(use-package
+ evil
+ :init
+ (setq evil-want-integration t)
+ (setq evil-want-keybinding nil)
+ (setq evil-split-window-below t)
+ (evil-mode))
+(use-package
+ evil-collection
+ :after evil
+ :config (evil-collection-init '(dashboard dired ibuffer)))
+(eval-after-load 'evil-collection-unimpaired '(diminish 'evil-collection-unimpaired-mode))
+(use-package
+ evil-org
+ :after org
+ :diminish
+ :hook (org-mode . evil-org-mode)
+ :config
+ (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
+ (require 'evil-org-agenda)
+ (evil-org-agenda-set-keys))
+(use-package evil-tutor)
+
+;; Turns off elpaca-use-package-mode current declartion
+;; NOTE: This will cause the declaration to be interpreted immediately (not deferred)
+;; Useful for configuring built-in Emacs features
+(use-package
+ emacs
+ :elpaca nil
+ :config (setq ring-bell-function #'ignore))
+#+end_src
+
+** General Keybindings
+
+General is a system that provides a convenient method for binding keys in Emacs.
+
+#+begin_src emacs-lisp
+(use-package
+ general
+
+ :config (general-evil-setup)
+
+ ;; Set up 'SPC' as the global leader key
+ (general-create-definer
+  nyamacs/leader-keys
+  :states '(normal insert visual emacs)
+  :keymaps 'override
+  :prefix "SPC" ;; Set leader
+  :global-prefix "M-SPC") ;; Access leader in insert mode
+
+ (nyamacs/leader-keys
+  "." '(find-file :wk "Find file") "f" '(:ignore t :wk "Find") "f c"
+  '((lambda ()
+      (interactive)
+      (find-file "~/.config/emacs/config.org"))
+    :wk "Edit Emacs configuration")
+  "f r" '(counsel-recentf :wk "Find recent files"))
+
+ (nyamacs/leader-keys 
+  "SPC" '(counsel-M-x :wk "Counsel M-x")
+  "TAB TAB" '(comment-line :wk "Comment lines"))
+
+ (nyamacs/leader-keys
+  "b"
+  '(:ignore t :wk "Buffer")
+  "b b"
+  '(switch-to-buffer :wk "Switch buffer")
+  "b i"
+  '(ibuffer :wk "Ibuffer")
+  "b k"
+  '(kill-this-buffer :wk "Kill this buffer")
+  "b n"
+  '(next-buffer :wk "Next buffer")
+  "b p"
+  '(previous-buffer :wk "Previous buffer")
+  "b r"
+  '(revert-buffer :wk "Reload buffer"))
+
+ (nyamacs/leader-keys
+   "d" '(:ignore t :wk "Dired")
+   "d d" '(dired :wk "Open Dired")
+   "d j" '(dired-jump :wk "Dired jump to current")
+   "d n" '(neotree-dir :wk "Open directory in Neotree")
+   "d p" '(peep-dired :wk "Toggle peep-dired"))
+
+ (nyamacs/leader-keys
+  "e"
+  '(:ignore t :wk "Eshell/Evaluate")
+  "e b"
+  '(eval-buffer :wk "Evaluate elisp in buffer")
+  "e d"
+  '(eval-defun :wk "Evaluate defun containing or after point")
+  "e e"
+  '(eval-expression :wk "Evaluate an elisp expression")
+  "e l"
+  '(eval-last-sexp :wk "Evaluate elisp expression before point")
+  "e r"
+  '(eval-region :wk "Evaluate elisp in region")
+  "e s"
+  '(eshell :wk "Eshell")
+  "e h"
+  '(counsel-esh-history :wk "Eshell history"))
+
+ (nyamacs/leader-keys
+  "h"
+  '(:ignore t :wk "Help")
+  "h f"
+  '(describe-function :wk "Describe function")
+  "h v"
+  '(describe-variable :wk "Describe variable")
+  "h r r"
+  '((lambda ()
+      (interactive)
+      (load-file "~/.config/emacs/init.el")
+      (ignore (elpaca-process-queues)))
+    :wk "Reload Emacs configuration"))
+
+ (nyamacs/leader-keys
+  "m"
+  '(:ignore t :wk "Org")
+  "m a"
+  '(org-agenda :wk "Org agenda")
+  "m e"
+  '(org-export-dispatch :wk "Org export dispatch")
+  "m i"
+  '(org-toggle-item :wk "Org toggle item")
+  "m t"
+  '(org-todo :wk "Org todo")
+  "m B"
+  '(org-babel-tangle :wk "Org babel tangle")
+  "m T"
+  '(org-todo-list :wk "Org todo list"))
+
+ (nyamacs/leader-keys
+  "m b"
+  '(:ignore t :wk "Tables")
+  "m b -"
+  '(org-table-insert-hline :wk "Insert hline in table"))
+
+ (nyamacs/leader-keys
+  "m d"
+  '(:ignore t :wk "Date/deadline")
+  "m d t"
+  '(org-time-stamp :wk "Org time stamp"))
+
+ (nyamacs/leader-keys
+  "t"
+  '(:ignore t :wk "Toggle")
+  "t l"
+  '(display-line-numbers-mode :wk "Toggle line numbers")
+  "t n"
+  '(neotree-toggle :wk "Toggle Neotree")
+  "t t"
+  '(visual-line-mode :wk "Toggle truncated lines")
+  "t v"
+  '(vterm-toggle :wk "Toggle Vterm"))
+
+ (nyamacs/leader-keys
+  "w"
+  '(:ignore t :wk "Windows")
+  ;; Window splits
+  "w c"
+  '(evil-window-delete :wk "Close window")
+  "w n"
+  '(evil-window-new :wk "New window")
+  "w s"
+  '(evil-window-split :wk "Horizontal split window")
+  "w v"
+  '(evil-window-vsplit :wk "Vertical split window")
+  ;; Window motions
+  "w h"
+  '(evil-window-left :wk "Window left")
+  "w j"
+  '(evil-window-down :wk "Window down")
+  "w k"
+  '(evil-window-up :wk "Window up")
+  "w l"
+  '(evil-window-right :wk "Window right")
+  "w w"
+  '(evil-window-next :wk "Goto next window")
+  ;; Move Windows
+  "w H"
+  '(buf-move-left :wk "Buffer move left")
+  "w J"
+  '(buf-move-down :wk "Buffer move down")
+  "w K"
+  '(buf-move-up :wk "Buffer move up")
+  "w L"
+  '(buf-move-right :wk "Buffer move right"))
+
+ (nyamacs/leader-keys
+  "g"
+  '(:ignore t :wk "Games")
+  "g p"
+  '(pong :wk "Pong")
+  "g s"
+  '(snake :wk "Snake")
+  "g t"
+  '(tetris :wk "Tetris")))
+#+end_src
+
+** Which-Key
+
+which-key is a package that shows key bindings that follow a currently entered incomplete command in a popup.
+
+#+begin_src emacs-lisp
+(use-package
+ which-key
+ :init (which-key-mode 1)
+ :diminish
+ :config
+ (setq
+  which-key-side-window-location 'bottom
+  which-key-sort-order #'which-key-key-order-alpha
+  which-key-sort-uppercase-first nil
+  which-key-add-column-padding 1
+  which-key-max-display-columns nil
+  which-key-min-display-lines 6
+  which-key-side-window-slot -10
+  which-key-side-window-max-height 0.25
+  which-key-idle-delay 0.8
+  which-key-max-description-length 25
+  which-key-allow-imprecise-window-fit nil
+  which-key-separator " → "))
+#+end_src
+
+* ALL THE ICONS
+
+All The Icons is a collection of icon fonts for Emacs.
+
+#+begin_src emacs-lisp
+(use-package all-the-icons :if (display-graphic-p))
+
+(use-package
+ all-the-icons-dired
+ :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
+#+end_src
+
+* ANACONDA
+
+Anaconda is a minor mode that provides many useful utilities when coding in Python. *NOTE*: If you don't use Python, you may want to remove this section. Otherwise, make sure you have Python installed on your system.
+
+#+begin_src emacs-lisp
+(use-package
+ anaconda-mode
+ :diminish
+ :hook
+ ((python-mode . anaconda-mode) (python-mode . anaconda-eldoc-mode)))
+(use-package company-anaconda :after company)
+(eval-after-load
+    "company-anaconda"
+  '(add-to-list 'company-backends 'company-anaconda))
+#+end_src
+
+* AUTOFMT
+
+elisp-autofmt is used to---wait for it---automatically format Elisp. I use it when I edit this configuration. *NOTE*: When using elisp-autofmt on an Org document, you need to select each block of Elisp individually (not including the begin_src or end_src tags) and then run M-x elisp-autofmt-region. Using M-x elisp-autofmt-buffer will treat /everything/ as Elisp, including Org syntax, so it's best not to use it unless you're editing a plain .el file. 
+
+#+begin_src emacs-lisp
+(use-package elisp-autofmt)
+#+end_src
+
+* BUFFER-MOVE
+
+This is a small Elisp script to allow moving of Emacs splits.
+
+The original source code is available on [[https://www.emacswiki.org/emacs/buffer-move.el][the EmacsWiki]].
+
+#+begin_src emacs-lisp
+(require 'windmove)
+
+;;;###autoload
+(defun buf-move-up ()
+  "Swap the current buffer and the buffer above the split.
+If there is no split, ie now window above the current one, an
+error is signaled."
+  ;;  "Switches between the current buffer, and the buffer above the
+  ;;  split, if possible."
+  (interactive)
+  (let* ((other-win (windmove-find-other-window 'up))
+         (buf-this-buf (window-buffer (selected-window))))
+    (if (null other-win)
+        (error "No window above this one")
+      ;; swap top with this one
+      (set-window-buffer (selected-window) (window-buffer other-win))
+      ;; move this one to top
+      (set-window-buffer other-win buf-this-buf)
+      (select-window other-win))))
+
+;;;###autoload
+(defun buf-move-down ()
+  "Swap the current buffer and the buffer under the split.
+If there is no split, ie now window under the current one, an
+error is signaled."
+  (interactive)
+  (let* ((other-win (windmove-find-other-window 'down))
+         (buf-this-buf (window-buffer (selected-window))))
+    (if (or (null other-win)
+            (string-match
+             "^ \\*Minibuf" (buffer-name (window-buffer other-win))))
+        (error "No window under this one")
+      ;; swap top with this one
+      (set-window-buffer (selected-window) (window-buffer other-win))
+      ;; move this one to top
+      (set-window-buffer other-win buf-this-buf)
+      (select-window other-win))))
+
+;;;###autoload
+(defun buf-move-left ()
+  "Swap the current buffer and the buffer on the left of the split.
+If there is no split, ie now window on the left of the current
+one, an error is signaled."
+  (interactive)
+  (let* ((other-win (windmove-find-other-window 'left))
+         (buf-this-buf (window-buffer (selected-window))))
+    (if (null other-win)
+        (error "No left split")
+      ;; swap top with this one
+      (set-window-buffer (selected-window) (window-buffer other-win))
+      ;; move this one to top
+      (set-window-buffer other-win buf-this-buf)
+      (select-window other-win))))
+
+;;;###autoload
+(defun buf-move-right ()
+  "Swap the current buffer and the buffer on the right of the split.
+If there is no split, ie now window on the right of the current
+one, an error is signaled."
+  (interactive)
+  (let* ((other-win (windmove-find-other-window 'right))
+         (buf-this-buf (window-buffer (selected-window))))
+    (if (null other-win)
+        (error "No right split")
+      ;; swap top with this one
+      (set-window-buffer (selected-window) (window-buffer other-win))
+      ;; move this one to top
+      (set-window-buffer other-win buf-this-buf)
+      (select-window other-win))))
+#+end_src
+
+* COMPANY
+
+[[https://company-mode.github.io/][Company]] is a text completion framework for Emacs. The name is an abbreviation for "*comp*​lete *any*​thing". Completion will start automatically after you type a few letters. Use M-n and M-p to select, <return> to complete or <tab> to complete the common part.
+
+#+begin_src emacs-lisp
+(use-package company
+  :defer 2
+  :diminish
+  :custom
+  (company-begin-commands '(self-insert-command))
+  (company-idle-delay .1)
+  (company-minimum-prefix-length 2)
+  (company-show-numbers t)
+  (company-tooltip-align-annotations 't)
+  (global-company-mode t))
+
+(use-package company-box
+  :after company
+  :diminish
+  :hook (company-mode . company-box-mode))
+#+end_src
+
+* DASHBOARD
+
+Dashboard is a start screen for Emacs that provides convenient shortcuts.
+
+#+begin_src emacs-lisp
+(use-package
+ dashboard
+ :init
+ (setq initial-buffer-choice 'dashboard-open)
+ (setq dashboard-set-heading-icons t)
+ (setq dashboard-set-file-icons t)
+ (setq dashboard-banner-logo-title
+       "Welcome to Nyamacs! Let's get started.")
+ (setq dashboard-startup-banner
+       "~/.config/emacs/images/nyamacs-logo.svg")
+ (setq dashboard-center-content t)
+ (setq dashboard-items
+       '((recents . 5)
+         (agenda . 5)
+         (bookmarks . 3)
+         (projects . 3)
+         (registers . 3)))
+ (setq dashboard-footer-messages
+      '("And then he opened his cat-themed Emacs configuration. Funniest crap I've ever seen"
+        "Emacs? Is that the new McDonald's burger?"
+        "Also try Spacemacs!"
+        "Also try Doom Emacs!"
+        "When in doubt, :wq"
+        "I'd just like to interject for a moment..."
+        "The power of free software compels you"
+        "Okay, that's cool, but can your text editor play Tetris?"
+        "Did you finish your homework?"
+        "Probably not yandere-proof"
+        "You like configuring Emacs, don't you?"
+        "L + ratio + sudo rm -rf --no-preserve-root /"
+        "This is Nekosis, and I pronounce Nyamacs as /ˈnjaːmæks/"))
+ (setq dashboard-footer-icon "🐱")
+ :custom
+ (dashboard-modify-heading-icons
+  '((recents . "file-text") (bookmarks . "book")))
+ :config (dashboard-setup-startup-hook))
+#+end_src
+
+* DIMINISH
+
+This package implements hiding or abbreviation of the modeline displays (lighters) of minor modes. With this package installed, you can add ‘:diminish’ to any use-package block to hide that particular mode in the modeline.
+
+#+begin_src emacs-lisp
+(use-package diminish)
+(eval-after-load 'diminish '(diminish 'eldoc-mode))
+#+end_src
+
+* DIRED
+
+Dired is the built-in file manager for Emacs. This configuration section:
+
++ Sets up files of certain extensions to open in certain applications. *NOTE*: If using a different image viewer or media player than the ones set below, you'll want to replace 'qview' with your image viewer and 'mpv' with your media player below.
++ Installs peep-dired, a file previewer.
+
+*NOTE*: Make sure you are *not* in insert mode while using Dired. Use it in normal mode.
+
+#+begin_src emacs-lisp
+(use-package dired-open
+  :config
+  (setq dired-open-extensions '(("gif" . "qview")
+                                ("jpg" . "qview")
+                                ("png" . "qview")
+                                ("svg" . "qview")
+                                ("mkv" . "mpv")
+                                ("mp4" . "mpv")
+                                ("mp3" . "mpv"))))
+
+(use-package peep-dired
+  :after dired
+  :hook (evil-normalize-keymaps . peep-dired-hook)
+  :config
+    (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
+    (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
+)
+#+end_src
+
+* DISABLED OR MODIFIED DEFAULT EMACS BEHAVIOR
+
+** Change Backup and Autosave File Location
+
+Emacs creates backup and autosave files in the same directory as the original file as the default. This can create clutter, so let's generate these files in a single directory.
+
+#+begin_src emacs-lisp
+(setq backup-directory-alist '((".*" . "~/.config/emacs/backups")))
+(setq auto-save-file-name-transforms
+      `((".*" "~/.config/emacs/autosaves/" t)))
+
+;; Create the backup directory if it doesn't exist
+(unless (file-exists-p "~/.config/emacs/backups")
+  (make-directory "~/.config/emacs/backups"))
+
+;; Create the autosave directory if it doesn't exist
+(unless (file-exists-p "~/.config/emacs/autosaves")
+  (make-directory "~/.config/emacs/autosaves"))
+#+end_src
+
+* FLYCHECK
+
+Flycheck is a syntax checker for various programming languages.
+
+#+begin_src emacs-lisp
+(use-package flycheck :defer t :diminish :init (global-flycheck-mode))
+#+end_src
+
+* FONTS
+
+** Setting the Font Face
+
+*NOTE*: Replace the fonts below with your preferred ones. For the default, fixed-pitch, and default-frame-alist fonts, I recommend using a monospace [[https://www.nerdfonts.com/][Nerd Font]]. For the variable-pitch font, use any proportional font.
+
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil
+                    :font "Hack Nerd Font Mono"
+                    :height 110
+                    :weight 'medium)
+(set-face-attribute 'variable-pitch nil
+                    :font "Ubuntu"
+                    :height 120
+                    :weight 'medium)
+(set-face-attribute 'fixed-pitch nil
+                    :font "Hack Nerd Font Mono"
+                    :height 110
+                    :weight 'medium)
+(add-to-list 'default-frame-alist '(font . "Hack Nerd Font Mono-11"))
+(setq-default line-spacing 0.12)
+#+end_src
+
+** Zooming In/Out
+
+This sets the keybindings C-+/C-- for zooming in and out, respectively. It also allows zooming in and out by scrolling the mouse wheel while holding Ctrl.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
+(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+#+end_src
+
+* GAMES
+
+** Tetris
+
+My preferred Tetris controls. *NOTE*: You may want to remove or modify this section if you prefer different controls.
+
+#+begin_src emacs-lisp
+(require 'tetris)
+(define-key tetris-mode-map (kbd "<up>") 'tetris-move-bottom)
+(define-key tetris-mode-map (kbd "SPC") 'tetris-rotate-next)
+#+end_src
+
+* GRAPHICAL USER INTERFACE TWEAKS
+
+** Disable Menubar, Toolbars and Scrollbars
+
+#+begin_src emacs-lisp
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+#+end_src
+
+** Display Line Numbers and Truncated Lines
+
+#+begin_src emacs-lisp
+(global-display-line-numbers-mode 1)
+(global-visual-line-mode t)
+#+end_src
+
+* IVY (COUNSEL)
+
+Ivy is a generic completion mechanism for Emacs, and Counsel is a collection of Ivy-enhanced versions of common Emacs commands. ivy-rich allows us to show descriptions for M-x commands.
+
+#+begin_src emacs-lisp
+(use-package counsel :after ivy :diminish :config (counsel-mode))
+
+(use-package
+ ivy
+ :bind
+ (("C-c C-r" . ivy-resume) ("C-x B" . ivy-switch-buffer-other-window))
+ :diminish
+ :custom
+ (setq ivy-use-virtual-buffers t)
+ (setq ivy-count-format "(%d/%d) ")
+ (setq enable-recursive-minibuffers t)
+ :config (ivy-mode))
+
+(use-package
+ all-the-icons-ivy-rich
+ :init (all-the-icons-ivy-rich-mode 1))
+
+(use-package ivy-rich
+  :after ivy
+  :init
+  (ivy-rich-mode 1)
+  :config
+  (defun ivy-rich-switch-buffer-icon (candidate)
+    (with-current-buffer
+        (get-buffer candidate)
+      (let ((icon (all-the-icons-icon-for-mode major-mode)))
+        (if (symbolp icon)
+            (all-the-icons-icon-for-mode 'fundamental-mode)
+          icon))))
+  (setq ivy-rich-display-transformers-list
+        '(ivy-switch-buffer
+          (:columns
+           ((ivy-rich-switch-buffer-icon (:width 2))
+            (ivy-rich-candidate (:width 30))
+            (ivy-rich-switch-buffer-size (:width 7))
+            (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
+            (ivy-rich-switch-buffer-major-mode (:width 12 :face warning))
+            (ivy-rich-switch-buffer-project (:width 15 :face success))
+            (ivy-rich-switch-buffer-path (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3))))))
+           :predicate
+           (lambda (cand) (get-buffer cand)))))
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  (setq ivy-rich-path-style 'abbrev))
+#+end_src
+
+* NEOTREE
+
+Neotree is a file tree viewer.  When you open Neotree, it will jump to the current file due to neo-smart-open. The neo-window-fixed-size setting makes the width of Neotree adjustable. Neotree provides the Classic, ASCII, Arrow, Icons, and Nerd themes.
+
+| COMMAND        | DESCRIPTION               | KEYBINDING |
+|----------------+---------------------------+------------|
+| neotree-toggle | Toggle Neotree            | SPC-t-n    |
+| neotree-dir    | Open directory in Neotree | SPC-d-n    |
+
+#+BEGIN_SRC emacs-lisp
+(use-package neotree
+  :config
+  (setq neo-smart-open t
+        neo-show-hidden-files t
+        neo-window-width 55
+        neo-window-fixed-size nil
+        inhibit-compacting-font-caches t
+        projectile-switch-project-action 'neotree-projectile-action) 
+        ;; truncate long file names in neotree
+        (add-hook 'neo-after-create-hook
+           #'(lambda (_)
+               (with-current-buffer (get-buffer neo-buffer-name)
+                 (setq truncate-lines t)
+                 (setq word-wrap nil)
+                 (make-local-variable 'auto-hscroll-mode)
+                 (setq auto-hscroll-mode nil)))))
+#+end_src
+
+* ORG MODE
+
+Org Mode is an advanced markup language designed specifically for Emacs. It's very useful for a variety of note-taking, programming, scheduling, and planning tasks. This configuration itself is written in Org!
+
+** Enable Table of Contents
+
+This makes it so that if you type a first level Org header with the tag :toc:, Emacs will automatically generate a clickable table of contents on save. *NOTE*: If you add or remove any sections when first customizing this config, you may want to regenerate the table of contents after you finish setting up Nyamacs. To do so, open this document in Emacs, then press SPC-SPC and run toc-org-insert-toc.
+
+#+begin_src emacs-lisp
+(use-package
+ toc-org
+ :commands toc-org-enable
+ :init (add-hook 'org-mode-hook 'toc-org-enable))
+#+end_src
+
+** Enable Org Superstar
+
+This makes Org headings look nicer by changing the asterisks to custom characters.
+
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook 'org-indent-mode)
+(eval-after-load 'org-indent '(diminish 'org-indent-mode))
+(use-package org-superstar
+  :hook (org-mode . org-superstar-mode)
+  :config (setq org-superstar-leading-bullet ?\s)
+  (setq org-superstar-special-todo-items t))
+(setq org-indent-mode-turns-on-hiding-stars nil)
+#+end_src
+
+** Disable Electric Indent
+
+By default, Org has this really strange indentation behavior that isn't really helpful and gets in the way more than anything. This can be disabled through disabling electric indent.
+
+#+begin_src emacs-lisp
+(electric-indent-mode -1)
+(setq org-edit-src-content-indentation 0)
+#+end_src
+
+** Hide Emphasis Markers
+
+This hides emphasis markers (i.e. asterisks for *bold text*, slashes for /italics/.) Let the formatting do the work on its own!
+
+#+begin_src emacs-lisp
+(setq org-hide-emphasis-markers t)
+#+end_src
+
+** Show Inline Images
+
+This tells Org mode to display inline images automatically - by default, you have to run a command to enable them.
+
+#+begin_src emacs-lisp
+(setq org-startup-with-inline-images t)
+#+end_src
+
+** Source Code Block Tag Expansion
+
+Org Tempo is a module included in Org allowing for one to type '<s' followed by TAB to expand to a begin_src tag, for example. Other expansions available include:
+
+| Typing the below + TAB | Expands to ...                          |
+|------------------------+-----------------------------------------|
+| <a                     | '#+BEGIN_EXPORT ascii' … '#+END_EXPORT  |
+| <c                     | '#+BEGIN_CENTER' … '#+END_CENTER'       |
+| <C                     | '#+BEGIN_COMMENT' … '#+END_COMMENT'     |
+| <e                     | '#+BEGIN_EXAMPLE' … '#+END_EXAMPLE'     |
+| <E                     | '#+BEGIN_EXPORT' … '#+END_EXPORT'       |
+| <h                     | '#+BEGIN_EXPORT html' … '#+END_EXPORT'  |
+| <l                     | '#+BEGIN_EXPORT latex' … '#+END_EXPORT' |
+| <q                     | '#+BEGIN_QUOTE' … '#+END_QUOTE'         |
+| <s                     | '#+BEGIN_SRC' … '#+END_SRC'             |
+| <v                     | '#+BEGIN_VERSE' … '#+END_VERSE'         |
+
+#+begin_src emacs-lisp
+(require 'org-tempo)
+#+end_src
+
+* PROJECTILE
+
+Projectile is a project interaction library for Emacs.
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :config
+  (projectile-mode 1))
+#+end_src
+
+* RAINBOW MODE
+
+Rainbow Mode colorizes color names and codes in buffers.
+
+#+begin_src emacs-lisp
+(use-package rainbow-mode :diminish :hook org-mode prog-mode)
+#+end_src
+
+* SHELLS AND TERMINALS
+
+** Eshell
+
+Eshell is a shell implemented in Emacs Lisp that offers portability and cooperation with Lisp code with a similar interface to shells like Bash and Zsh.
+
+#+begin_src emacs-lisp
+(use-package
+ eshell-syntax-highlighting
+ :after esh-mode
+ :config (eshell-syntax-highlighting-global-mode +1))
+
+(setq
+ eshell-rc-script (concat user-emacs-directory "eshell/profile")
+ eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
+ eshell-history-size 5000
+ eshell-buffer-maximum-lines 5000
+ eshell-hist-ignoredups t
+ eshell-scroll-to-bottom-on-input t
+ eshell-destroy-buffer-when-process-dies t
+ eshell-visual-commands' ("bash" "fish" "htop" "ssh" "top" "zsh"))
+#+end_src
+
+** Vterm
+
+Vterm is a terminal emulator running inside Emacs.
+
+*NOTE*: Change the shell-file-name below to your preferred shell if using something different (i.e. Zsh or Fish).
+
+#+begin_src emacs-lisp
+(use-package
+ vterm
+ :config
+ (setq
+  shell-file-name "/bin/bash"
+  vterm-max-scrollback 5000))
+#+end_src
+
+** Vterm-Toggle
+
+vterm-toggle allows easy toggling between the Vterm buffer and the buffer currently being edited.
+
+In this configuration, you can press SPC-t-v to invoke it.
+
+*NOTE*: When first loading this config, this package will hang during byte-compilation. This is expected. See step 4 of the installation guide.
+
+#+begin_src emacs-lisp
+(use-package
+ vterm-toggle
+ :after vterm
+ :config
+ (setq vterm-toggle-fullscreen-p nil)
+ (setq vterm-toggle-scope 'project)
+ (add-to-list
+  'display-buffer-alist
+  '((lambda (buffer-or-name _)
+      (let ((buffer (get-buffer buffer-or-name)))
+        (with-current-buffer buffer
+          (or (equal major-mode 'vterm-mode)
+              (string-prefix-p
+               vterm-buffer-name (buffer-name buffer))))))
+    (display-buffer-reuse-window display-buffer-at-bottom)
+    (reusable-frames . visible)
+    (window-height . 0.3))))
+#+end_src
+
+* SUDO EDIT
+
+sudo-edit allows opening and editing of files as superuser without having to open Emacs itself as root.
+
+#+begin_src emacs-lisp
+(use-package
+ sudo-edit
+ :config
+ (nyamacs/leader-keys
+  "fu"
+  '(sudo-edit-find-file :wk "Sudo find file")
+  "fU"
+  '(sudo-edit :wk "Sudo edit file")))
+#+end_src
+
+* THEME
+
+The following is a custom theme I've created myself that borrows the color scheme from [[https://github.com/catppuccin/catppuccin/][Catppuccin]] as I was dissatisfied with the [[https://github.com/catppuccin/emacs/][official Catppuccin theme for Emacs]]. It was initially created using the [[https://mswift42.github.io/themecreator/][ThemeCreator tool]] and edited to suit my needs.
+
+#+begin_src emacs-lisp
+(add-to-list 'custom-theme-load-path "~/.config/emacs/themes")
+(load-theme 'catppuccin-mocha t)
+#+end_src
+
+* END OF CONFIGURATION
+
+Thank you for reading through this configuration! If following the installation guide, you may continue with step 3. Take care!
