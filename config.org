@@ -25,6 +25,7 @@
 - [[#disabled-or-modified-default-emacs-behavior][DISABLED OR MODIFIED DEFAULT EMACS BEHAVIOR]]
   - [[#change-backup-and-autosave-file-location][Change Backup and Autosave File Location]]
   - [[#change-window-title][Change Window Title]]
+  - [[#use-yn-everywhere][Use y/n Everywhere]]
 - [[#flycheck][FLYCHECK]]
 - [[#fonts][FONTS]]
   - [[#setting-the-font-face][Setting the Font Face]]
@@ -646,6 +647,14 @@ This line changes the window title to something slightly more sensible.
 
 #+begin_src emacs-lisp
 (setq frame-title-format "%b - Nyamacs")
+#+end_src
+
+** Use y/n Everywhere
+
+For some confirmation prompts, Emacs forces you to type the full words "yes" or "no". This changes this so you only have to type "y" or "n".
+
+#+begin_src emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p)
 #+end_src
 
 * FLYCHECK
