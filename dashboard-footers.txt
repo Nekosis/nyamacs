@@ -12,8 +12,8 @@ You like configuring Emacs, don't you?
 L + ratio + sudo rm -rf --no-preserve-root /
 This is Nekosis, and I pronounce Nyamacs as /ˈnjaːmæks/
 You know what they say: All Emacsen emacs emacs!
-Emacs? I barely meta.
-My whole life is a text buffer.
+Emacs? I barely meta
+My whole life is a text buffer
 Emacs stands for "Eight Megabytes and Constantly Swapping"
 Oh my god this is so sad, M-x play-despacito
-Hey all, Stallman here.
+Hey all, Stallman here
