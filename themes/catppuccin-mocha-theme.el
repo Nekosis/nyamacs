@@ -196,7 +196,10 @@
    `(ansi-color-cyan ((,class (:background "#94E2D5" :foreground "#94E2D5"))))
    `(ansi-color-bright-cyan ((,class (:background "#94E2D5" :foreground "#94E2D5"))))
    `(ansi-color-white ((,class (:background "#A6ADC8" :foreground "#A6ADC8"))))
-   `(ansi-color-bright-white ((,class (:background "#A6ADC8" :foreground "#A6ADC8"))))))
+   `(ansi-color-bright-white ((,class (:background "#A6ADC8" :foreground "#A6ADC8"))))
+   `(neo-root-dir-face ((,class (:foreground "#94e2d5" :bold t))))
+   `(neo-dir-link-face ((,class (:foreground "#89b4fa"))))
+   `(neo-file-link-face ((,class (:foreground "#cdd6f4"))))))
 
 
 ;; Local Variables:
