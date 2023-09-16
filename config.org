@@ -568,19 +568,10 @@ Dashboard is a start screen for Emacs that provides convenient shortcuts.
          (projects . 3)
          (registers . 3)))
  (setq dashboard-footer-messages
-      '("And then he opened his cat-themed Emacs configuration. Funniest crap I've ever seen"
-        "Emacs? Is that the new McDonald's burger?"
-        "Also try Spacemacs!"
-        "Also try Doom Emacs!"
-        "When in doubt, :wq"
-        "I'd just like to interject for a moment..."
-        "The power of free software compels you"
-        "Okay, that's cool, but can your text editor play Tetris?"
-        "Did you finish your homework?"
-        "Probably not yandere-proof"
-        "You like configuring Emacs, don't you?"
-        "L + ratio + sudo rm -rf --no-preserve-root /"
-        "This is Nekosis, and I pronounce Nyamacs as /ˈnjaːmæks/"))
+       (with-temp-buffer
+         (insert-file-contents
+          "~/.config/emacs/dashboard-footers.txt")
+         (split-string (buffer-string) "\n" t)))
  (setq dashboard-footer-icon "🐱")
  :custom
  (dashboard-modify-heading-icons
