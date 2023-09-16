@@ -24,6 +24,7 @@
 - [[#dired][DIRED]]
 - [[#disabled-or-modified-default-emacs-behavior][DISABLED OR MODIFIED DEFAULT EMACS BEHAVIOR]]
   - [[#change-backup-and-autosave-file-location][Change Backup and Autosave File Location]]
+  - [[#change-window-title][Change Window Title]]
 - [[#flycheck][FLYCHECK]]
 - [[#fonts][FONTS]]
   - [[#setting-the-font-face][Setting the Font Face]]
@@ -637,6 +638,14 @@ Emacs creates backup and autosave files in the same directory as the original fi
 ;; Create the autosave directory if it doesn't exist
 (unless (file-exists-p "~/.config/emacs/autosaves")
   (make-directory "~/.config/emacs/autosaves"))
+#+end_src
+
+** Change Window Title
+
+This line changes the window title to something slightly more sensible.
+
+#+begin_src emacs-lisp
+(setq frame-title-format "%b - Nyamacs")
 #+end_src
 
 * FLYCHECK
