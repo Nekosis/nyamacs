@@ -896,6 +896,8 @@ Rainbow Mode colorizes color names and codes in buffers.
 
 Eshell is a shell implemented in Emacs Lisp that offers portability and cooperation with Lisp code with a similar interface to shells like Bash and Zsh.
 
+*NOTE*: Please customize the aliases in ~/.config/emacs/eshell/aliases to your liking.
+
 #+begin_src emacs-lisp
 (use-package
  eshell-syntax-highlighting

@@ -180,7 +180,24 @@
    `(term-color-blue ((,class (:background "#89B4FA" :foreground "#89B4FA"))))
    `(term-color-magenta ((,class (:background "#F5C2E7" :foreground "#F5C2E7"))))
    `(term-color-cyan ((,class (:background "#94E2D5" :foreground "#94E2D5"))))
-   `(term-color-white ((,class (:background "#A6ADC8" :foreground "#A6ADC8"))))))
+   `(term-color-white ((,class (:background "#A6ADC8" :foreground "#A6ADC8"))))
+   `(ansi-color-black ((,class (:background "#585B70" :foreground "#585B70"))))
+   `(ansi-color-bright-black ((,class (:background "#45475A" :foreground "#45475A"))))
+   `(ansi-color-red ((,class (:background "#F38BA8" :foreground "#F38BA8"))))
+   `(ansi-color-bright-red ((,class (:background "#F38BA8" :foreground "#F38BA8"))))
+   `(ansi-color-green ((,class (:background "#A6E3A1" :foreground "#A6E3A1"))))
+   `(ansi-color-bright-green ((,class (:background "#A6E3A1" :foreground "#A6E3A1"))))
+   `(ansi-color-yellow ((,class (:background "#F9E2AF" :foreground "#F9E2AF"))))
+   `(ansi-color-bright-yellow ((,class (:background "#F9E2AF" :foreground "#F9E2AF"))))
+   `(ansi-color-blue ((,class (:background "#89B4FA" :foreground "#89B4FA"))))
+   `(ansi-color-bright-blue ((,class (:background "#89B4FA" :foreground "#89B4FA"))))
+   `(ansi-color-magenta ((,class (:background "#F5C2E7" :foreground "#F5C2E7"))))
+   `(ansi-color-bright-magenta ((,class (:background "#F5C2E7" :foreground "#F5C2E7"))))
+   `(ansi-color-cyan ((,class (:background "#94E2D5" :foreground "#94E2D5"))))
+   `(ansi-color-bright-cyan ((,class (:background "#94E2D5" :foreground "#94E2D5"))))
+   `(ansi-color-white ((,class (:background "#A6ADC8" :foreground "#A6ADC8"))))
+   `(ansi-color-bright-white ((,class (:background "#A6ADC8" :foreground "#A6ADC8"))))))
+
 
 ;; Local Variables:
 ;; no-byte-compile: t
