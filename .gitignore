@@ -1,7 +1,9 @@
+anaconda-mode/
 auto-save-list/
 autosaves/
 backups/
 config.el
+elisp-autofmt-cache/
 elpaca/
 eshell/history
 projectile-bookmarks.eld
