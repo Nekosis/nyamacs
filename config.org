@@ -35,6 +35,7 @@
 - [[#graphical-user-interface-tweaks][GRAPHICAL USER INTERFACE TWEAKS]]
   - [[#disable-menubar-toolbars-and-scrollbars][Disable Menubar, Toolbars and Scrollbars]]
   - [[#display-line-numbers-and-truncated-lines][Display Line Numbers and Truncated Lines]]
+  - [[#vi-tilde-fringe][Vi-Tilde-Fringe]]
 - [[#ivy-counsel][IVY (COUNSEL)]]
 - [[#neotree][NEOTREE]]
 - [[#org-mode][ORG MODE]]
@@ -734,6 +735,14 @@ My preferred Tetris controls. *NOTE*: You may want to remove or modify this sect
 #+begin_src emacs-lisp
 (global-display-line-numbers-mode 1)
 (global-visual-line-mode t)
+#+end_src
+
+** Vi-Tilde-Fringe
+
+Mark empty lines with a tilde a la Vi.
+
+#+begin_src emacs-lisp
+(use-package vi-tilde-fringe :diminish :hook org-mode prog-mode text-mode)
 #+end_src
 
 * IVY (COUNSEL)

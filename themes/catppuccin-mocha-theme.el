@@ -196,7 +196,8 @@
    `(ansi-color-bright-white ((,class (:background "#A6ADC8" :foreground "#A6ADC8"))))
    `(neo-root-dir-face ((,class (:foreground "#94e2d5" :bold t))))
    `(neo-dir-link-face ((,class (:foreground "#89b4fa"))))
-   `(neo-file-link-face ((,class (:foreground "#cdd6f4"))))))
+   `(neo-file-link-face ((,class (:foreground "#cdd6f4"))))
+   `(line-number ((,class (:inherit default))))))
 
 
 ;; Local Variables:
