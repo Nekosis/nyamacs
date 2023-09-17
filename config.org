@@ -266,11 +266,16 @@ General is a system that provides a convenient method for binding keys in Emacs.
   '(revert-buffer :wk "Reload buffer"))
 
  (nyamacs/leader-keys
-   "d" '(:ignore t :wk "Dired")
-   "d d" '(dired :wk "Open Dired")
-   "d j" '(dired-jump :wk "Dired jump to current")
-   "d n" '(neotree-dir :wk "Open directory in Neotree")
-   "d p" '(peep-dired :wk "Toggle peep-dired"))
+  "d"
+  '(:ignore t :wk "Dired")
+  "d d"
+  '(dired :wk "Open Dired")
+  "d j"
+  '(dired-jump :wk "Dired jump to current")
+  "d n"
+  '(neotree-dir :wk "Open directory in Neotree")
+  "d p"
+  '(peep-dired :wk "Toggle peep-dired"))
 
  (nyamacs/leader-keys
   "e"
