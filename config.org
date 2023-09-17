@@ -273,9 +273,7 @@ General is a system that provides a convenient method for binding keys in Emacs.
   "d j"
   '(dired-jump :wk "Dired jump to current")
   "d n"
-  '(neotree-dir :wk "Open directory in Neotree")
-  "d p"
-  '(peep-dired :wk "Toggle peep-dired"))
+  '(neotree-dir :wk "Open directory in Neotree"))
 
  (nyamacs/leader-keys
   "e"
@@ -602,7 +600,7 @@ This package implements hiding or abbreviation of the modeline displays (lighter
 Dired is the built-in file manager for Emacs. This configuration section:
 
 + Sets up files of certain extensions to open in certain applications. *NOTE*: If using a different image viewer or media player than the ones set below, you'll want to replace 'qview' with your image viewer and 'mpv' with your media player below.
-+ Installs peep-dired, a file previewer.
++ Installs dired-preview, a file previewer.
 
 *NOTE*: Make sure you are *not* in insert mode while using Dired. Use it in normal mode.
 
@@ -617,15 +615,11 @@ Dired is the built-in file manager for Emacs. This configuration section:
                                 ("mp4" . "mpv")
                                 ("mp3" . "mpv"))))
 
-(use-package peep-dired
+(use-package dired-preview
   :after dired
-  :hook (evil-normalize-keymaps . peep-dired-hook)
+  :diminish
   :config
-    (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
-    (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file)
-    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
-    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
-)
+  (dired-preview-global-mode 1))
 #+end_src
 
 * DISABLED OR MODIFIED DEFAULT EMACS BEHAVIOR
