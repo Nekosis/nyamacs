@@ -427,6 +427,7 @@ All The Icons is a collection of icon fonts for Emacs.
 
 (use-package
  all-the-icons-dired
+ :diminish
  :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
 #+end_src
 
