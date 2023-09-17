@@ -191,7 +191,9 @@ Evil Mode provides Vim-like keybindings for Emacs.
  (setq evil-want-integration t)
  (setq evil-want-keybinding nil)
  (setq evil-split-window-below t)
- (evil-mode))
+ (evil-mode)
+ :config
+ (evil-set-undo-system 'undo-redo))
 (use-package
  evil-collection
  :after evil
