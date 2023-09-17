@@ -37,7 +37,6 @@
   - [[#display-line-numbers-and-truncated-lines][Display Line Numbers and Truncated Lines]]
   - [[#vi-tilde-fringe][Vi-Tilde-Fringe]]
 - [[#ivy-counsel][IVY (COUNSEL)]]
-- [[#neotree][NEOTREE]]
 - [[#org-mode][ORG MODE]]
   - [[#enable-table-of-contents][Enable Table of Contents]]
   - [[#enable-org-superstar][Enable Org Superstar]]
@@ -53,6 +52,7 @@
   - [[#vterm-toggle][Vterm-Toggle]]
 - [[#sudo-edit][SUDO EDIT]]
 - [[#theme][THEME]]
+- [[#treemacs][TREEMACS]]
 - [[#end-of-configuration][END OF CONFIGURATION]]
 
 * FOREWORD
@@ -209,6 +209,8 @@ Evil Mode provides Vim-like keybindings for Emacs.
  (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
  (require 'evil-org-agenda)
  (evil-org-agenda-set-keys))
+(use-package treemacs-evil
+  :after (treemacs evil))
 (use-package evil-tutor)
 
 ;; Turns off elpaca-use-package-mode current declartion
@@ -273,8 +275,8 @@ General is a system that provides a convenient method for binding keys in Emacs.
   '(dired :wk "Open Dired")
   "d j"
   '(dired-jump :wk "Dired jump to current")
-  "d n"
-  '(neotree-dir :wk "Open directory in Neotree")
+  "d t"
+  '(treemacs-select-direcotry :wk "Open directory in Treemacs")
   "d p"
   '(peep-dired :wk "Toggle peep-dired"))
 
@@ -343,8 +345,8 @@ General is a system that provides a convenient method for binding keys in Emacs.
   '(:ignore t :wk "Toggle")
   "t l"
   '(display-line-numbers-mode :wk "Toggle line numbers")
-  "t n"
-  '(neotree-toggle :wk "Toggle Neotree")
+  "t m"
+  '(treemacs :wk "Toggle Treemacs")
   "t t"
   '(visual-line-mode :wk "Toggle truncated lines")
   "t v"
@@ -795,34 +797,6 @@ Ivy is a generic completion mechanism for Emacs, and Counsel is a collection of 
   (setq ivy-rich-path-style 'abbrev))
 #+end_src
 
-* NEOTREE
-
-Neotree is a file tree viewer.  When you open Neotree, it will jump to the current file due to neo-smart-open. The neo-window-fixed-size setting makes the width of Neotree adjustable. Neotree provides the Classic, ASCII, Arrow, Icons, and Nerd themes.
-
-| COMMAND        | DESCRIPTION               | KEYBINDING |
-|----------------+---------------------------+------------|
-| neotree-toggle | Toggle Neotree            | SPC-t-n    |
-| neotree-dir    | Open directory in Neotree | SPC-d-n    |
-
-#+BEGIN_SRC emacs-lisp
-(use-package neotree
-  :config
-  (setq neo-smart-open t
-        neo-show-hidden-files t
-        neo-window-width 55
-        neo-window-fixed-size nil
-        inhibit-compacting-font-caches t
-        projectile-switch-project-action 'neotree-projectile-action) 
-        ;; truncate long file names in neotree
-        (add-hook 'neo-after-create-hook
-           #'(lambda (_)
-               (with-current-buffer (get-buffer neo-buffer-name)
-                 (setq truncate-lines t)
-                 (setq word-wrap nil)
-                 (make-local-variable 'auto-hscroll-mode)
-                 (setq auto-hscroll-mode nil)))))
-#+end_src
-
 * ORG MODE
 
 Org Mode is an advanced markup language designed specifically for Emacs. It's very useful for a variety of note-taking, programming, scheduling, and planning tasks. This configuration itself is written in Org!
@@ -906,6 +880,8 @@ Projectile is a project interaction library for Emacs.
 (use-package projectile
   :config
   (projectile-mode 1))
+(use-package treemacs-projectile
+  :after (treemacs projectile))
 #+end_src
 
 * RAINBOW MODE
@@ -1006,6 +982,20 @@ The following is a custom theme I've created myself that borrows the color schem
 #+begin_src emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes")
 (load-theme 'catppuccin-mocha t)
+#+end_src
+
+* TREEMACS
+
+Treemacs is a tree layout file explorer.
+
+#+begin_src emacs-lisp
+(use-package
+ treemacs
+ :after treemacs-all-the-icons
+ :config
+ (setq treemacs-width 42)
+ (treemacs-load-theme "all-the-icons"))
+(use-package treemacs-all-the-icons :after (all-the-icons))
 #+end_src
 
 * END OF CONFIGURATION
