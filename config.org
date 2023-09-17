@@ -25,6 +25,7 @@
 - [[#disabled-or-modified-default-emacs-behavior][DISABLED OR MODIFIED DEFAULT EMACS BEHAVIOR]]
   - [[#change-backup-and-autosave-file-location][Change Backup and Autosave File Location]]
   - [[#change-window-title][Change Window Title]]
+  - [[#autoselect-window-under-mouse][Autoselect Window Under Mouse]]
   - [[#use-yn-everywhere][Use y/n Everywhere]]
 - [[#flycheck][FLYCHECK]]
 - [[#fonts][FONTS]]
@@ -660,6 +661,14 @@ This line changes the window title to something slightly more sensible.
 (setq frame-title-format "%b - Nyamacs")
 #+end_src
 
+** Autoselect Window Under Mouse
+
+Focus the window that the mouse is currently over.
+
+#+begin_src emacs-lisp
+(setq mouse-autoselect-window t)
+#+end_src
+
 ** Use y/n Everywhere
 
 For some confirmation prompts, Emacs forces you to type the full words "yes" or "no". This changes this so you only have to type "y" or "n".
@@ -994,8 +1003,10 @@ Treemacs is a tree layout file explorer.
  :after treemacs-all-the-icons
  :config
  (setq treemacs-width 42)
- (treemacs-load-theme "all-the-icons"))
-(use-package treemacs-all-the-icons :after (all-the-icons))
+ (treemacs-load-theme "all-the-icons")
+ :hook
+ (server-after-make-frame . treemacs))
+(use-package treemacs-all-the-icons :after all-the-icons)
 #+end_src
 
 * END OF CONFIGURATION
