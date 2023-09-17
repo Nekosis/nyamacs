@@ -197,7 +197,7 @@ Evil Mode provides Vim-like keybindings for Emacs.
 (use-package
  evil-collection
  :after evil
- :config (evil-collection-init '(dashboard dired ibuffer)))
+ :config (evil-collection-init '(dashboard dired ibuffer vterm)))
 (eval-after-load 'evil-collection-unimpaired '(diminish 'evil-collection-unimpaired-mode))
 (use-package
  evil-org
