@@ -242,11 +242,12 @@ General is a system that provides a convenient method for binding keys in Emacs.
   :global-prefix "M-SPC") ;; Access leader in insert mode
 
  (nyamacs/leader-keys
-  "." '(find-file :wk "Find file") "f" '(:ignore t :wk "Find") "f c"
+  "f" '(:ignore t :wk "Find") "f c"
   '((lambda ()
       (interactive)
       (find-file "~/.config/emacs/config.org"))
     :wk "Edit Emacs configuration")
+  "f f" '(find-file :wk "Find file")
   "f r" '(counsel-recentf :wk "Find recent files"))
 
  (nyamacs/leader-keys 
