@@ -1011,7 +1011,7 @@ Treemacs is a tree layout file explorer.
   .
   (lambda ()
     (when (equal (selected-window) (treemacs-get-local-window))
-      (treemacs-toggle-node)
+      (save-selected-window (treemacs-toggle-node))
       (other-window 1)))))
 (use-package treemacs-all-the-icons :after all-the-icons)
 #+end_src
