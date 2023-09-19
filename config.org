@@ -58,7 +58,7 @@
 
 * FOREWORD
 
-This is my personal configuration for GNU Emacs. Emacs is an amazing tool with extensive customization options. I consider it one of the best libre tools out there. Emacs is more than just a text editor; it's a lifestyle. If you want to read more about Emacs itself, feel free to check out the [[https://emacs.org/][GNU Emacs website]].
+This is my personal configuration for GNU Emacs, featuring the [[https://github.com/progfolio/elpaca][Elpaca package manager]].  Emacs is an amazing tool with extensive customization options. I consider it one of the best libre tools out there. Emacs is more than just a text editor; it's a lifestyle. If you want to read more about Emacs itself, feel free to check out the [[https://emacs.org/][GNU Emacs website]].
 
 This is my first ever Emacs configuration. I'm very grateful for the amazing programs and documentation in the Emacs community! Even as a young teenager, I was easily able to solve problems with my configuration on my own thanks to your amazing contributions... and maybe a /little/ ChatGPT, haha. I hope to use Emacs for years to come. Thank you all!
 
