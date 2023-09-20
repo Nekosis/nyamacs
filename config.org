@@ -1004,15 +1004,14 @@ Treemacs is a tree layout file explorer.
  :after treemacs-all-the-icons
  :config
  (setq treemacs-width 42)
+ (setq treemacs-expand-after-init t)
  (treemacs-load-theme "all-the-icons")
  :hook
- (server-after-make-frame . treemacs)
- (treemacs-post-buffer-init
+ (server-after-make-frame
   .
   (lambda ()
-    (when (equal (selected-window) (treemacs-get-local-window))
-      (save-selected-window (treemacs-toggle-node))
-      (other-window 1)))))
+    (save-selected-window
+      (treemacs)))))
 (use-package treemacs-all-the-icons :after all-the-icons)
 #+end_src
 
