@@ -434,6 +434,8 @@ All The Icons is a collection of icon fonts for Emacs.
  all-the-icons-dired
  :diminish
  :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
+
+(use-package treemacs-all-the-icons :after all-the-icons)
 #+end_src
 
 * ANACONDA
@@ -625,13 +627,17 @@ Dired is the built-in file manager for Emacs. This configuration section:
 
 (use-package peep-dired
   :after dired
-  :hook (evil-normalize-keymaps . peep-dired-hook)
+  :hook (peep-dired . evil-normalize-keymaps)
   :config
     (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
     (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file)
     (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
     (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
-)
+    ;;
+    (evil-define-key 'normal peep-dired-mode-map (kbd "<left>") 'dired-up-directory)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "<right>") 'dired-open-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "<down>") 'peep-dired-next-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "<up>") 'peep-dired-prev-file))
 #+end_src
 
 * DISABLED OR MODIFIED DEFAULT EMACS BEHAVIOR
@@ -1001,7 +1007,6 @@ Treemacs is a tree layout file explorer.
 #+begin_src emacs-lisp
 (use-package
  treemacs
- :after treemacs-all-the-icons
  :config
  (setq treemacs-width 42)
  (setq treemacs-expand-after-init t)
@@ -1011,8 +1016,12 @@ Treemacs is a tree layout file explorer.
   .
   (lambda ()
     (save-selected-window
+      (treemacs))))
+ (dired-mode
+  .
+  (lambda ()
+    (when (treemacs-get-local-window)
       (treemacs)))))
-(use-package treemacs-all-the-icons :after all-the-icons)
 #+end_src
 
 * END OF CONFIGURATION
