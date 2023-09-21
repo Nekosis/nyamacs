@@ -43,6 +43,7 @@
   - [[#enable-org-superstar][Enable Org Superstar]]
   - [[#disable-electric-indent][Disable Electric Indent]]
   - [[#hide-emphasis-markers][Hide Emphasis Markers]]
+  - [[#mixed-pitch-mode][Mixed Pitch Mode]]
   - [[#show-inline-images][Show Inline Images]]
   - [[#source-code-block-tag-expansion][Source Code Block Tag Expansion]]
 - [[#projectile][PROJECTILE]]
@@ -699,19 +700,21 @@ Flycheck is a syntax checker for various programming languages.
 *NOTE*: Replace the fonts below with your preferred ones. For the default, fixed-pitch, and default-frame-alist fonts, I recommend using a monospace [[https://www.nerdfonts.com/][Nerd Font]]. For the variable-pitch font, use any proportional font.
 
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil
-                    :font "Hack Nerd Font Mono"
-                    :height 110
-                    :weight 'medium)
-(set-face-attribute 'variable-pitch nil
-                    :font "Ubuntu"
-                    :height 120
-                    :weight 'medium)
-(set-face-attribute 'fixed-pitch nil
-                    :font "Hack Nerd Font Mono"
-                    :height 110
-                    :weight 'medium)
-(add-to-list 'default-frame-alist '(font . "Hack Nerd Font Mono-11"))
+(defun nyamacs-set-fonts ()
+  "Load the font faces for Nyamacs specified in the configuration."
+  (set-face-attribute 'default nil
+                      :font "Hack Nerd Font Mono"
+                      :height 110
+                      :weight 'medium)
+  (set-face-attribute 'variable-pitch nil
+                      :font "Ubuntu"
+                      :weight 'medium)
+  (set-face-attribute 'fixed-pitch nil
+                      :font "Hack Nerd Font Mono"
+                      :height 110
+                      :weight 'medium))
+(nyamacs-set-fonts)
+(add-hook 'server-after-make-frame-hook 'nyamacs-set-fonts)
 (setq-default line-spacing 0.12)
 #+end_src
 
@@ -857,6 +860,16 @@ This hides emphasis markers (i.e. asterisks for *bold text*, slashes for /italic
 
 #+begin_src emacs-lisp
 (setq org-hide-emphasis-markers t)
+#+end_src
+
+** Mixed Pitch Mode
+
+Mixed pitch mode is a minor mode that displays certain text (i.e. code, tables) in fixed-pitch, but displays everything else in variable-pitch.
+
+#+begin_src emacs-lisp
+(use-package mixed-pitch
+  :diminish
+  :hook (org-mode . mixed-pitch-mode))
 #+end_src
 
 ** Show Inline Images
