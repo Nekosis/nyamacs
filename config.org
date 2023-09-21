@@ -25,6 +25,7 @@
 - [[#disabled-or-modified-default-emacs-behavior][DISABLED OR MODIFIED DEFAULT EMACS BEHAVIOR]]
   - [[#change-backup-and-autosave-file-location][Change Backup and Autosave File Location]]
   - [[#change-window-title][Change Window Title]]
+  - [[#autoselect-window-under-mouse][Autoselect Window Under Mouse]]
   - [[#use-yn-everywhere][Use y/n Everywhere]]
 - [[#flycheck][FLYCHECK]]
 - [[#fonts][FONTS]]
@@ -35,13 +36,14 @@
 - [[#graphical-user-interface-tweaks][GRAPHICAL USER INTERFACE TWEAKS]]
   - [[#disable-menubar-toolbars-and-scrollbars][Disable Menubar, Toolbars and Scrollbars]]
   - [[#display-line-numbers-and-truncated-lines][Display Line Numbers and Truncated Lines]]
+  - [[#vi-tilde-fringe][Vi-Tilde-Fringe]]
 - [[#ivy-counsel][IVY (COUNSEL)]]
-- [[#neotree][NEOTREE]]
 - [[#org-mode][ORG MODE]]
   - [[#enable-table-of-contents][Enable Table of Contents]]
   - [[#enable-org-superstar][Enable Org Superstar]]
   - [[#disable-electric-indent][Disable Electric Indent]]
   - [[#hide-emphasis-markers][Hide Emphasis Markers]]
+  - [[#mixed-pitch-mode][Mixed Pitch Mode]]
   - [[#show-inline-images][Show Inline Images]]
   - [[#source-code-block-tag-expansion][Source Code Block Tag Expansion]]
 - [[#projectile][PROJECTILE]]
@@ -52,11 +54,12 @@
   - [[#vterm-toggle][Vterm-Toggle]]
 - [[#sudo-edit][SUDO EDIT]]
 - [[#theme][THEME]]
+- [[#treemacs][TREEMACS]]
 - [[#end-of-configuration][END OF CONFIGURATION]]
 
 * FOREWORD
 
-This is my personal configuration for GNU Emacs. Emacs is an amazing tool with extensive customization options. I consider it one of the best libre tools out there. Emacs is more than just a text editor; it's a lifestyle. If you want to read more about Emacs itself, feel free to check out the [[https://emacs.org/][GNU Emacs website]].
+This is my personal configuration for GNU Emacs, featuring the [[https://github.com/progfolio/elpaca][Elpaca package manager]].  Emacs is an amazing tool with extensive customization options. I consider it one of the best libre tools out there. Emacs is more than just a text editor; it's a lifestyle. If you want to read more about Emacs itself, feel free to check out the [[https://emacs.org/][GNU Emacs website]].
 
 This is my first ever Emacs configuration. I'm very grateful for the amazing programs and documentation in the Emacs community! Even as a young teenager, I was easily able to solve problems with my configuration on my own thanks to your amazing contributions... and maybe a /little/ ChatGPT, haha. I hope to use Emacs for years to come. Thank you all!
 
@@ -208,6 +211,8 @@ Evil Mode provides Vim-like keybindings for Emacs.
  (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
  (require 'evil-org-agenda)
  (evil-org-agenda-set-keys))
+(use-package treemacs-evil
+  :after (treemacs evil))
 (use-package evil-tutor)
 
 ;; Turns off elpaca-use-package-mode current declartion
@@ -238,11 +243,12 @@ General is a system that provides a convenient method for binding keys in Emacs.
   :global-prefix "M-SPC") ;; Access leader in insert mode
 
  (nyamacs/leader-keys
-  "." '(find-file :wk "Find file") "f" '(:ignore t :wk "Find") "f c"
+  "f" '(:ignore t :wk "Find") "f c"
   '((lambda ()
       (interactive)
       (find-file "~/.config/emacs/config.org"))
     :wk "Edit Emacs configuration")
+  "f f" '(find-file :wk "Find file")
   "f r" '(counsel-recentf :wk "Find recent files"))
 
  (nyamacs/leader-keys 
@@ -272,8 +278,8 @@ General is a system that provides a convenient method for binding keys in Emacs.
   '(dired :wk "Open Dired")
   "d j"
   '(dired-jump :wk "Dired jump to current")
-  "d n"
-  '(neotree-dir :wk "Open directory in Neotree"))
+  "d t"
+  '(treemacs-select-direcotry :wk "Open directory in Treemacs"))
 
  (nyamacs/leader-keys
   "e"
@@ -340,8 +346,8 @@ General is a system that provides a convenient method for binding keys in Emacs.
   '(:ignore t :wk "Toggle")
   "t l"
   '(display-line-numbers-mode :wk "Toggle line numbers")
-  "t n"
-  '(neotree-toggle :wk "Toggle Neotree")
+  "t m"
+  '(treemacs :wk "Toggle Treemacs")
   "t t"
   '(visual-line-mode :wk "Toggle truncated lines")
   "t v"
@@ -425,7 +431,10 @@ All The Icons is a collection of icon fonts for Emacs.
 
 (use-package
  all-the-icons-dired
+ :diminish
  :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
+
+(use-package treemacs-all-the-icons :after all-the-icons)
 #+end_src
 
 * ANACONDA
@@ -650,6 +659,14 @@ This line changes the window title to something slightly more sensible.
 (setq frame-title-format "%b - Nyamacs")
 #+end_src
 
+** Autoselect Window Under Mouse
+
+Focus the window that the mouse is currently over.
+
+#+begin_src emacs-lisp
+(setq mouse-autoselect-window t)
+#+end_src
+
 ** Use y/n Everywhere
 
 For some confirmation prompts, Emacs forces you to type the full words "yes" or "no". This changes this so you only have to type "y" or "n".
@@ -673,19 +690,21 @@ Flycheck is a syntax checker for various programming languages.
 *NOTE*: Replace the fonts below with your preferred ones. For the default, fixed-pitch, and default-frame-alist fonts, I recommend using a monospace [[https://www.nerdfonts.com/][Nerd Font]]. For the variable-pitch font, use any proportional font.
 
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil
-                    :font "Hack Nerd Font Mono"
-                    :height 110
-                    :weight 'medium)
-(set-face-attribute 'variable-pitch nil
-                    :font "Ubuntu"
-                    :height 120
-                    :weight 'medium)
-(set-face-attribute 'fixed-pitch nil
-                    :font "Hack Nerd Font Mono"
-                    :height 110
-                    :weight 'medium)
-(add-to-list 'default-frame-alist '(font . "Hack Nerd Font Mono-11"))
+(defun nyamacs-set-fonts ()
+  "Load the font faces for Nyamacs specified in the configuration."
+  (set-face-attribute 'default nil
+                      :font "Hack Nerd Font Mono"
+                      :height 110
+                      :weight 'medium)
+  (set-face-attribute 'variable-pitch nil
+                      :font "Ubuntu"
+                      :weight 'medium)
+  (set-face-attribute 'fixed-pitch nil
+                      :font "Hack Nerd Font Mono"
+                      :height 110
+                      :weight 'medium))
+(nyamacs-set-fonts)
+(add-hook 'server-after-make-frame-hook 'nyamacs-set-fonts)
 (setq-default line-spacing 0.12)
 #+end_src
 
@@ -727,6 +746,14 @@ My preferred Tetris controls. *NOTE*: You may want to remove or modify this sect
 #+begin_src emacs-lisp
 (global-display-line-numbers-mode 1)
 (global-visual-line-mode t)
+#+end_src
+
+** Vi-Tilde-Fringe
+
+Mark empty lines with a tilde a la Vi.
+
+#+begin_src emacs-lisp
+(use-package vi-tilde-fringe :diminish :hook org-mode prog-mode text-mode)
 #+end_src
 
 * IVY (COUNSEL)
@@ -779,34 +806,6 @@ Ivy is a generic completion mechanism for Emacs, and Counsel is a collection of 
   (setq ivy-rich-path-style 'abbrev))
 #+end_src
 
-* NEOTREE
-
-Neotree is a file tree viewer.  When you open Neotree, it will jump to the current file due to neo-smart-open. The neo-window-fixed-size setting makes the width of Neotree adjustable. Neotree provides the Classic, ASCII, Arrow, Icons, and Nerd themes.
-
-| COMMAND        | DESCRIPTION               | KEYBINDING |
-|----------------+---------------------------+------------|
-| neotree-toggle | Toggle Neotree            | SPC-t-n    |
-| neotree-dir    | Open directory in Neotree | SPC-d-n    |
-
-#+BEGIN_SRC emacs-lisp
-(use-package neotree
-  :config
-  (setq neo-smart-open t
-        neo-show-hidden-files t
-        neo-window-width 55
-        neo-window-fixed-size nil
-        inhibit-compacting-font-caches t
-        projectile-switch-project-action 'neotree-projectile-action) 
-        ;; truncate long file names in neotree
-        (add-hook 'neo-after-create-hook
-           #'(lambda (_)
-               (with-current-buffer (get-buffer neo-buffer-name)
-                 (setq truncate-lines t)
-                 (setq word-wrap nil)
-                 (make-local-variable 'auto-hscroll-mode)
-                 (setq auto-hscroll-mode nil)))))
-#+end_src
-
 * ORG MODE
 
 Org Mode is an advanced markup language designed specifically for Emacs. It's very useful for a variety of note-taking, programming, scheduling, and planning tasks. This configuration itself is written in Org!
@@ -853,6 +852,16 @@ This hides emphasis markers (i.e. asterisks for *bold text*, slashes for /italic
 (setq org-hide-emphasis-markers t)
 #+end_src
 
+** Mixed Pitch Mode
+
+Mixed pitch mode is a minor mode that displays certain text (i.e. code, tables) in fixed-pitch, but displays everything else in variable-pitch.
+
+#+begin_src emacs-lisp
+(use-package mixed-pitch
+  :diminish
+  :hook (org-mode . mixed-pitch-mode))
+#+end_src
+
 ** Show Inline Images
 
 This tells Org mode to display inline images automatically - by default, you have to run a command to enable them.
@@ -890,6 +899,8 @@ Projectile is a project interaction library for Emacs.
 (use-package projectile
   :config
   (projectile-mode 1))
+(use-package treemacs-projectile
+  :after (treemacs projectile))
 #+end_src
 
 * RAINBOW MODE
@@ -990,6 +1001,30 @@ The following is a custom theme I've created myself that borrows the color schem
 #+begin_src emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes")
 (load-theme 'catppuccin-mocha t)
+#+end_src
+
+* TREEMACS
+
+Treemacs is a tree layout file explorer.
+
+#+begin_src emacs-lisp
+(use-package
+ treemacs
+ :config
+ (setq treemacs-width 42)
+ (setq treemacs-expand-after-init t)
+ (treemacs-load-theme "all-the-icons")
+ :hook
+ (server-after-make-frame
+  .
+  (lambda ()
+    (save-selected-window
+      (treemacs))))
+ (dired-mode
+  .
+  (lambda ()
+    (when (treemacs-get-local-window)
+      (treemacs)))))
 #+end_src
 
 * END OF CONFIGURATION

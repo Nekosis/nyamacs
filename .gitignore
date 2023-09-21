@@ -1,4 +1,5 @@
 .#*
+.cache
 anaconda-mode/
 auto-save-list/
 autosaves/

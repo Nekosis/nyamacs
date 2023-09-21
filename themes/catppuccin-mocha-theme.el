@@ -72,11 +72,8 @@
    `(fringe ((,class (:background ,bg1 :foreground ,fg1))))
    `(cursor ((,class (:background ,fg4))))
    `(isearch ((,class (:bold t :foreground ,warning :background ,bg3))))
-   `(mode-line ((,class (:box (:line-width 1 :color nil) :bold t :foreground ,fg4 :background ,bg2))))
-   `(mode-line-inactive ((,class (:box (:line-width 1 :color nil :style pressed-button) :foreground ,var :background ,bg1 :weight normal))))
-   `(mode-line-buffer-id ((,class (:bold t :foreground ,func :background ,unspec))))
-   `(mode-line-highlight ((,class (:foreground ,keyword :box nil :weight bold))))
-   `(mode-line-emphasis ((,class (:foreground ,fg1))))
+   `(mode-line ((,class (:background "#181825" :foreground ,fg1))))
+   `(mode-line-inactive ((,class (:background "#11111b" :foreground "#6c7086"))))
    `(vertical-border ((,class (:foreground ,fg3))))
    `(minibuffer-prompt ((,class (:bold t :foreground ,keyword))))
    `(default-italic ((,class (:italic t))))
@@ -197,9 +194,7 @@
    `(ansi-color-bright-cyan ((,class (:background "#94E2D5" :foreground "#94E2D5"))))
    `(ansi-color-white ((,class (:background "#A6ADC8" :foreground "#A6ADC8"))))
    `(ansi-color-bright-white ((,class (:background "#A6ADC8" :foreground "#A6ADC8"))))
-   `(neo-root-dir-face ((,class (:foreground "#94e2d5" :bold t))))
-   `(neo-dir-link-face ((,class (:foreground "#89b4fa"))))
-   `(neo-file-link-face ((,class (:foreground "#cdd6f4"))))))
+   `(line-number ((,class (:inherit default))))))
 
 
 ;; Local Variables:
