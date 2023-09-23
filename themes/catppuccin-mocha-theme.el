@@ -1,7 +1,39 @@
+;;; catppuccin-mocha-theme.el --- Soothing pastel theme for Emacs 🐃 -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2023 Nekosis
+
+;; Author: Nekosis <37462865+Nekosis@users.noreply.github.com>
+;; Created: 23 Sep 2023
+
+;; URL: https://github.com/Nekosis/nyamacs
+
+;;; Package-Requires: ((autothemer))
+
+;; This file is not part of GNU Emacs.
+
+;; This file is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;; Soothing pastel theme for Emacs 🐃
+
+;;; Code:
+
 (require 'autothemer)
 
 (autothemer-deftheme
- catppuccin-mocha "Soothing pastel theme for Emacs!"
+ catppuccin-mocha "Soothing pastel theme for Emacs 🐃"
 
  ((((class color) (min-colors #xFFFFFF)))
 
@@ -39,11 +71,13 @@
   (highlight (:background ctp-surface0))
   (hl-line (:background ctp-surface0))
   (line-number (:foreground ctp-surface1 :background ctp-base))
-  (line-number-current-line (:foreground ctp-lavender :background ctp-base))
+  (line-number-current-line
+   (:foreground ctp-lavender :background ctp-base))
   (link (:foreground ctp-lavender :underline t))
   (minibuffer-prompt (:foreground ctp-subtext0))
   (mode-line (:background ctp-mantle :foreground ctp-text))
-  (mode-line-inactive (:background ctp-crust :foreground ctp-overlay0))
+  (mode-line-inactive
+   (:background ctp-crust :foreground ctp-overlay0))
   (region (:background ctp-surface0))
   (vi-tilde-fringe-face (:inherit 'line-number))
   ;; Syntax highlighting
@@ -87,38 +121,54 @@
   (org-verbatim (:foreground ctp-green))
   ;; Terminal
   (term (:foreground ctp-text :background ctp-base))
-  (term-color-black (:foreground ctp-surface1 :background ctp-surface1))
-  (term-color-black-white (:foreground ctp-surface2 :background ctp-surface2))
+  (term-color-black
+   (:foreground ctp-surface1 :background ctp-surface1))
+  (term-color-black-white
+   (:foreground ctp-surface2 :background ctp-surface2))
   (term-color-red (:foreground ctp-red :background ctp-red))
   (term-color-bright-red (:foreground ctp-red :background ctp-red))
   (term-color-green (:foreground ctp-green :background ctp-green))
-  (term-color-bright-green (:foreground ctp-green :background ctp-green))
+  (term-color-bright-green
+   (:foreground ctp-green :background ctp-green))
   (term-color-yellow (:foreground ctp-yellow :background ctp-yellow))
-  (term-color-bright-yellow (:foreground ctp-yellow :background ctp-yellow))
+  (term-color-bright-yellow
+   (:foreground ctp-yellow :background ctp-yellow))
   (term-color-blue (:foreground ctp-blue :background ctp-blue))
   (term-color-bright-blue (:foreground ctp-blue :background ctp-blue))
   (term-color-magenta (:foreground ctp-pink :background ctp-pink))
-  (term-color-bright-magenta (:foreground ctp-pink :background ctp-pink))
+  (term-color-bright-magenta
+   (:foreground ctp-pink :background ctp-pink))
   (term-color-cyan (:foreground ctp-teal :background ctp-teal))
   (term-color-bright-cyan (:foreground ctp-teal :background ctp-teal))
-  (term-color-white (:foreground ctp-subtext1 :background ctp-subtext1))
-  (term-color-bright-white (:foreground ctp-subtext0 :background ctp-subtext0))
+  (term-color-white
+   (:foreground ctp-subtext1 :background ctp-subtext1))
+  (term-color-bright-white
+   (:foreground ctp-subtext0 :background ctp-subtext0))
   ;; ANSI
-  (ansi-color-black (:foreground ctp-surface1 :background ctp-surface1))
-  (ansi-color-bright-black (:foreground ctp-surface2 :background ctp-surface2))
+  (ansi-color-black
+   (:foreground ctp-surface1 :background ctp-surface1))
+  (ansi-color-bright-black
+   (:foreground ctp-surface2 :background ctp-surface2))
   (ansi-color-red (:foreground ctp-red :background ctp-red))
   (ansi-color-bright-red (:foreground ctp-red :background ctp-red))
   (ansi-color-green (:foreground ctp-green :background ctp-green))
-  (ansi-color-bright-green (:foreground ctp-green :background ctp-green))
+  (ansi-color-bright-green
+   (:foreground ctp-green :background ctp-green))
   (ansi-color-yellow (:foreground ctp-yellow :background ctp-yellow))
-  (ansi-color-bright-yellow (:foreground ctp-yellow :background ctp-yellow))
+  (ansi-color-bright-yellow
+   (:foreground ctp-yellow :background ctp-yellow))
   (ansi-color-blue (:foreground ctp-blue :background ctp-blue))
   (ansi-color-bright-blue (:foreground ctp-blue :background ctp-blue))
   (ansi-color-magenta (:foreground ctp-pink :background ctp-pink))
-  (ansi-color-bright-magenta (:foreground ctp-pink :background ctp-pink))
+  (ansi-color-bright-magenta
+   (:foreground ctp-pink :background ctp-pink))
   (ansi-color-cyan (:foreground ctp-teal :background ctp-teal))
   (ansi-color-bright-cyan (:foreground ctp-teal :background ctp-teal))
-  (ansi-color-white (:foreground ctp-subtext1 :background ctp-subtext1))
-  (ansi-color-bright-white (:foreground ctp-subtext0 :background ctp-subtext0))))
+  (ansi-color-white
+   (:foreground ctp-subtext1 :background ctp-subtext1))
+  (ansi-color-bright-white
+   (:foreground ctp-subtext0 :background ctp-subtext0))))
 
 (provide-theme 'catppuccin-mocha)
+
+;;; catppuccin-mocha-theme.el ends here
