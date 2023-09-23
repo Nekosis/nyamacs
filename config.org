@@ -17,6 +17,7 @@
 - [[#all-the-icons][ALL THE ICONS]]
 - [[#anaconda][ANACONDA]]
 - [[#autofmt][AUTOFMT]]
+- [[#autothemer][AUTOTHEMER]]
 - [[#buffer-move][BUFFER-MOVE]]
 - [[#company][COMPANY]]
 - [[#dashboard][DASHBOARD]]
@@ -53,7 +54,6 @@
   - [[#vterm][Vterm]]
   - [[#vterm-toggle][Vterm-Toggle]]
 - [[#sudo-edit][SUDO EDIT]]
-- [[#theme][THEME]]
 - [[#treemacs][TREEMACS]]
 - [[#end-of-configuration][END OF CONFIGURATION]]
 
@@ -458,6 +458,19 @@ elisp-autofmt is used to---wait for it---automatically format Elisp. I use it wh
 
 #+begin_src emacs-lisp
 (use-package elisp-autofmt)
+#+end_src
+
+* AUTOTHEMER
+
+Autothemer is a package that provides a simpler theming syntax for Emacs. I use it for the custom variant of the [[https://github.com/catppuccin/catppuccin][Catppuccin theme]] that I have created for Nyamacs.
+
+#+begin_src emacs-lisp
+(use-package
+ autothemer
+ :config
+ (add-to-list
+  'custom-theme-load-path "~/.config/emacs/themes")
+ (load-theme 'catppuccin-mocha t))
 #+end_src
 
 * BUFFER-MOVE
@@ -1010,15 +1023,6 @@ sudo-edit allows opening and editing of files as superuser without having to ope
   '(sudo-edit-find-file :wk "Sudo find file")
   "fU"
   '(sudo-edit :wk "Sudo edit file")))
-#+end_src
-
-* THEME
-
-The following is a custom theme I've created myself that borrows the color scheme from [[https://github.com/catppuccin/catppuccin/][Catppuccin]] as I was dissatisfied with the [[https://github.com/catppuccin/emacs/][official Catppuccin theme for Emacs]]. It was initially created using the [[https://mswift42.github.io/themecreator/][ThemeCreator tool]] and edited to suit my needs.
-
-#+begin_src emacs-lisp
-(add-to-list 'custom-theme-load-path "~/.config/emacs/themes")
-(load-theme 'catppuccin-mocha t)
 #+end_src
 
 * TREEMACS
