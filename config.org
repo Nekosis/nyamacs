@@ -81,9 +81,8 @@ If you've verified that this configuration is right for you, here are some gener
 1. Clone this Git repository to ~/.config/emacs/. *DO NOT* use ~/.emacs.d/ as this config contains hardcoded references to the former. In fact, make sure ~/.emacs.d/ is not present at all as to not cause conflicts with Nyamacs.
 2. Before launching Emacs, open this file (config.org) in another text editor and read each section, and make modifications where necessary. Pay special attention to any *NOTE*​s that I may have left you. Please be thorough!
 3. After making all desired edits, install Emacs if you haven't already. Then, execute /usr/bin/emacs (*NOT* emacsclient).
-4. Wait for a second until all the Elpaca packages install. You will see that one hangs, vterm-toggle. This is normal. When you reach that point, close Emacs, killing any processes that are still running. Do not worry - this will not affect Emacs negatively.
-5. Re-execute /usr/bin/emacs. It will prompt you to build a dependency for Vterm. Answer yes and wait for the build to complete.
-6. After the build, press SPC-SPC to open the M-x prompt, and execute all-the-icons-install-fonts. This will install icon fonts that Emacs uses to the computer.
+4. Wait for a second until all the Elpaca packages install. After they finish, close Emacs.
+5. Re-execute /usr/bin/emacs and press SPC-SPC to open the M-x prompt, and execute all-the-icons-install-fonts. This will install icon fonts that Emacs uses to the computer.
 7. After the fonts install, close Emacs once again.
 8. Add ~/usr/bin/emacs --daemon &~ to the startup applications of your window manager or desktop environment.
 9. Restart your computer.
@@ -977,8 +976,6 @@ Vterm is a terminal emulator running inside Emacs.
 vterm-toggle allows easy toggling between the Vterm buffer and the buffer currently being edited.
 
 In this configuration, you can press SPC-t-v to invoke it.
-
-*NOTE*: When first loading this config, this package will hang during byte-compilation. This is expected. See step 4 of the installation guide.
 
 #+begin_src emacs-lisp
 (use-package
