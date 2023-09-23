@@ -1048,3 +1048,5 @@ Treemacs is a tree layout file explorer.
 * END OF CONFIGURATION
 
 Thank you for reading through this configuration! If following the installation guide, you may continue with step 3. Take care!
+
+[[./images/built-with-emacs.svg]]
