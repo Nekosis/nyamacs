@@ -110,6 +110,7 @@
   (org-document-info (:foreground ctp-sapphire))
   (org-document-info-keyword (:foreground ctp-overlay0 :italic t))
   (org-document-title (:bold t :foreground ctp-blue :height 1.44))
+  (org-headline-done (:strike-through t))
   (org-level-1 (:bold t :foreground ctp-red :height 1.3))
   (org-level-2 (:bold t :foreground ctp-peach :height 1.2))
   (org-level-3 (:bold t :foreground ctp-yellow :height 1.2))
