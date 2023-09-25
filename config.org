@@ -463,7 +463,7 @@ elisp-autofmt is used to---wait for it---automatically format Elisp. I use it wh
 
 * AUTOTHEMER
 
-Autothemer is a package that provides a simpler theming syntax for Emacs. I use it for the custom variant of the [[https://github.com/catppuccin/catppuccin][Catppuccin theme]] that I have created for Nyamacs.
+Autothemer is a package that provides a simpler theming syntax for Emacs. I use it for the [[./themes/catppuccin-mocha-theme.el][custom variant]] of the [[https://github.com/catppuccin/catppuccin][Catppuccin theme]] that I have created for Nyamacs.
 
 #+begin_src emacs-lisp
 (use-package
