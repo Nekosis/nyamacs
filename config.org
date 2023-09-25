@@ -901,6 +901,18 @@ Org Tempo is a module included in Org allowing for one to type '<s' followed by 
 
 #+begin_src emacs-lisp
 (require 'org-tempo)
+(tempo-define-template "homework-list"
+    '("#+TITLE: Homework List" n
+      "#+AUTHOR: Jacob Sims" n
+      "#+DATE:" n n
+      "* Geometry Honors" n n n
+      "* English I Honors" n n n
+      "* Lifetime Wellness" n n n
+      "* AP Human Geography" n n n
+      "* Spanish II Honors" n n n
+      "* Biology Honors" n n)
+      "<hw"
+      "Insert a template for a homework list")
 #+end_src
 
 * PROJECTILE
