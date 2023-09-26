@@ -706,14 +706,14 @@ Flycheck is a syntax checker for various programming languages.
 (defun nyamacs-set-fonts ()
   "Load the font faces for Nyamacs specified in the configuration."
   (set-face-attribute 'default nil
-                      :font "Hack Nerd Font Mono"
+                      :font "Hack Nerd Font"
                       :height 110
                       :weight 'medium)
   (set-face-attribute 'variable-pitch nil
                       :font "Ubuntu"
                       :weight 'medium)
   (set-face-attribute 'fixed-pitch nil
-                      :font "Hack Nerd Font Mono"
+                      :font "Hack Nerd Font"
                       :height 110
                       :weight 'medium))
 (nyamacs-set-fonts)
