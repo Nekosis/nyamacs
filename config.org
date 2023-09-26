@@ -279,7 +279,9 @@ General is a system that provides a convenient method for binding keys in Emacs.
   "d j"
   '(dired-jump :wk "Dired jump to current")
   "d t"
-  '(treemacs-select-direcotry :wk "Open directory in Treemacs"))
+  '(treemacs-select-directory :wk "Open directory in Treemacs")
+  "d p"
+  '(dired-preview-mode :wk "Toggle Dired Preview"))
 
  (nyamacs/leader-keys
   "e"
@@ -637,11 +639,7 @@ Dired is the built-in file manager for Emacs. This configuration section:
                                 ("mp4" . "mpv")
                                 ("mp3" . "mpv"))))
 
-(use-package dired-preview
-  :after dired
-  :diminish
-  :config
-  (dired-preview-global-mode 1))
+(use-package dired-preview :after dired)
 #+end_src
 
 * DISABLED OR MODIFIED DEFAULT EMACS BEHAVIOR
