@@ -675,9 +675,14 @@ For some confirmation prompts, Emacs forces you to type the full words "yes" or 
 Elpy is a minor mode for Emacs that aims to provide a feature-rich and highly customizable editing experience for Python files. *NOTE*: If you don't use Python, you may want to remove this section. Otherwise, make sure you have Python installed on your system.
 
 #+begin_src emacs-lisp
-(use-package elpy
-  :init
-  (elpy-enable))
+(use-package
+ elpy
+ :diminish
+ :init (elpy-enable)
+ (setq elpy-modules
+       (delq
+        'elpy-module-flymake
+        (delq 'elpy-module-highlight-indentation elpy-modules))))
 #+end_src
 
 * FLYCHECK
