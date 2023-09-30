@@ -15,7 +15,6 @@
   - [[#general-keybindings][General Keybindings]]
   - [[#which-key][Which-Key]]
 - [[#all-the-icons][ALL THE ICONS]]
-- [[#anaconda][ANACONDA]]
 - [[#autofmt][AUTOFMT]]
 - [[#autothemer][AUTOTHEMER]]
 - [[#buffer-move][BUFFER-MOVE]]
@@ -28,6 +27,7 @@
   - [[#change-window-title][Change Window Title]]
   - [[#autoselect-window-under-mouse][Autoselect Window Under Mouse]]
   - [[#use-yn-everywhere][Use y/n Everywhere]]
+- [[#elpy][ELPY]]
 - [[#flycheck][FLYCHECK]]
 - [[#fonts][FONTS]]
   - [[#setting-the-font-face][Setting the Font Face]]
@@ -439,22 +439,6 @@ All The Icons is a collection of icon fonts for Emacs.
 (use-package treemacs-all-the-icons :after all-the-icons)
 #+end_src
 
-* ANACONDA
-
-Anaconda is a minor mode that provides many useful utilities when coding in Python. *NOTE*: If you don't use Python, you may want to remove this section. Otherwise, make sure you have Python installed on your system.
-
-#+begin_src emacs-lisp
-(use-package
- anaconda-mode
- :diminish
- :hook
- ((python-mode . anaconda-mode) (python-mode . anaconda-eldoc-mode)))
-(use-package company-anaconda :after company)
-(eval-after-load
-    "company-anaconda"
-  '(add-to-list 'company-backends 'company-anaconda))
-#+end_src
-
 * AUTOFMT
 
 elisp-autofmt is used to---wait for it---automatically format Elisp. I use it when I edit this configuration. *NOTE*: When using elisp-autofmt on an Org document, you need to select each block of Elisp individually (not including the begin_src or end_src tags) and then run M-x elisp-autofmt-region. Using M-x elisp-autofmt-buffer will treat /everything/ as Elisp, including Org syntax, so it's best not to use it unless you're editing a plain .el file. 
@@ -684,6 +668,16 @@ For some confirmation prompts, Emacs forces you to type the full words "yes" or 
 
 #+begin_src emacs-lisp
 (defalias 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+* ELPY
+
+Elpy is a minor mode for Emacs that aims to provide a feature-rich and highly customizable editing experience for Python files. *NOTE*: If you don't use Python, you may want to remove this section. Otherwise, make sure you have Python installed on your system.
+
+#+begin_src emacs-lisp
+(use-package elpy
+  :init
+  (elpy-enable))
 #+end_src
 
 * FLYCHECK
