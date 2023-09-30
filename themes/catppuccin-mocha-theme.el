@@ -80,6 +80,7 @@
    (:background ctp-crust :foreground ctp-overlay0))
   (region (:background ctp-surface0))
   (vi-tilde-fringe-face (:inherit 'line-number))
+  (highlight-indent-guides-character-face (:inherit 'line-number))
   ;; Syntax highlighting
   (font-lock-bracket-face (:foreground ctp-overlay2))
   (font-lock-builtin-face (:foreground ctp-red))

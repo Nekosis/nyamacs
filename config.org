@@ -37,7 +37,8 @@
 - [[#graphical-user-interface-tweaks][GRAPHICAL USER INTERFACE TWEAKS]]
   - [[#disable-menubar-toolbars-and-scrollbars][Disable Menubar, Toolbars and Scrollbars]]
   - [[#display-line-numbers-and-truncated-lines][Display Line Numbers and Truncated Lines]]
-  - [[#vi-tilde-fringe][Vi-Tilde-Fringe]]
+  - [[#highlight-indent-guides][Highlight Indent Guides]]
+  - [[#vi-tilde-fringe][Vi Tilde Fringe]]
 - [[#ivy-counsel][IVY (COUNSEL)]]
 - [[#markdown-mode][MARKDOWN MODE]]
 - [[#org-mode][ORG MODE]]
@@ -715,7 +716,6 @@ Flycheck is a syntax checker for various programming languages.
                       :weight 'medium))
 (nyamacs-set-fonts)
 (add-hook 'server-after-make-frame-hook 'nyamacs-set-fonts)
-(setq-default line-spacing 0.12)
 #+end_src
 
 ** Zooming In/Out
@@ -758,7 +758,20 @@ My preferred Tetris controls. *NOTE*: You may want to remove or modify this sect
 (global-visual-line-mode t)
 #+end_src
 
-** Vi-Tilde-Fringe
+** Highlight Indent Guides
+
+Shows indentation visually with lines in programming modes.
+
+#+begin_src emacs-lisp 
+(use-package
+ highlight-indent-guides
+ :diminish
+ :hook (prog-mode . highlight-indent-guides-mode)
+ :config (setq highlight-indent-guides-method 'character)
+ (setq highlight-indent-guides-auto-enabled nil))
+#+end_src
+
+** Vi Tilde Fringe
 
 Mark empty lines with a tilde a la Vi.
 
