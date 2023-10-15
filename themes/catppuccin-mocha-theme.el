@@ -121,6 +121,18 @@
   (org-level-7 (:foreground ctp-mauve))
   (org-level-8 (:foreground ctp-maroon))
   (org-verbatim (:foreground ctp-green))
+  (org-table (:foreground ctp-text))
+  ;; Markdown
+  (markdown-code-face (:foreground ctp-green))
+  (markdown-header-face-1 (:foreground ctp-red :height 1.3))
+  (markdown-header-face-2 (:foreground ctp-peach :height 1.2))
+  (markdown-header-face-3 (:foreground ctp-yellow :height 1.2))
+  (markdown-header-face-4 (:foreground ctp-green))
+  (markdown-header-face-5 (:foreground ctp-sapphire))
+  (markdown-header-face-6 (:foreground ctp-lavender))
+  (markdown-inline-code-face (:foreground ctp-green))
+  (markdown-table-face (:foreground ctp-text))
+  (markdown-list-face (:foreground ctp-mauve))
   ;; Terminal
   (term (:foreground ctp-text :background ctp-base))
   (term-color-black
