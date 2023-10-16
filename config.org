@@ -47,6 +47,7 @@
   - [[#disable-electric-indent][Disable Electric Indent]]
   - [[#hide-emphasis-markers][Hide Emphasis Markers]]
   - [[#mixed-pitch-mode][Mixed Pitch Mode]]
+  - [[#dwim-link-insertion][DWIM Link Insertion]]
   - [[#show-inline-images][Show Inline Images]]
   - [[#source-code-block-tag-expansion][Source Code Block Tag Expansion]]
 - [[#projectile][PROJECTILE]]
@@ -325,6 +326,8 @@ General is a system that provides a convenient method for binding keys in Emacs.
   '(org-export-dispatch :wk "Org export dispatch")
   "m i"
   '(org-toggle-item :wk "Org toggle item")
+  "m l"
+  '(nyamacs/org-insert-link-dwim :wk "Org insert link (DWIM)")
   "m t"
   '(org-todo :wk "Org todo")
   "m B"
@@ -701,7 +704,7 @@ Flycheck is a syntax checker for various programming languages.
 *NOTE*: Replace the fonts below with your preferred ones. For the default, fixed-pitch, and default-frame-alist fonts, I recommend using a monospace [[https://www.nerdfonts.com/][Nerd Font]]. For the variable-pitch font, use any proportional font.
 
 #+begin_src emacs-lisp
-(defun nyamacs-set-fonts ()
+(defun nyamacs/set-fonts ()
   "Load the font faces for Nyamacs specified in the configuration."
   (set-face-attribute 'default nil
                       :font "Hack Nerd Font"
@@ -714,8 +717,8 @@ Flycheck is a syntax checker for various programming languages.
                       :font "Hack Nerd Font"
                       :height 110
                       :weight 'medium))
-(nyamacs-set-fonts)
-(add-hook 'server-after-make-frame-hook 'nyamacs-set-fonts)
+(nyamacs/set-fonts)
+(add-hook 'server-after-make-frame-hook 'nyamacs/set-fonts)
 #+end_src
 
 ** Zooming In/Out
@@ -893,6 +896,39 @@ Mixed pitch mode is a minor mode that displays certain text (i.e. code, tables) 
 (use-package mixed-pitch
   :diminish
   :hook (org-mode . mixed-pitch-mode))
+#+end_src
+
+** DWIM Link Insertion
+
+This function, ~org-insert-link-dwim~, is bound to SPC-m-l and is a user-friendly abstraction over ~org-insert-link~ that automatically sorts out a lot of the nitty-gritty for you, hence DWIM (do what I mean).
+
+This function was taken from [[https://xenodium.com/emacs-dwim-do-what-i-mean/][Emacs DWIM: do what ✨I✨ mean]] on Álvaro Ramírez's blog.
+
+#+begin_src emacs-lisp
+(defun nyamacs/org-insert-link-dwim ()
+  "`org-insert-link' abstraction that does what you mean."
+  (interactive)
+  (let* ((point-in-link (org-in-regexp org-link-any-re 1))
+         (clipboard-url (when (string-match-p "^http" (current-kill 0))
+                          (current-kill 0)))
+         (region-content (when (region-active-p)
+                           (buffer-substring-no-properties (region-beginning)
+                                                           (region-end)))))
+    (cond ((and region-content clipboard-url (not point-in-link))
+           (delete-region (region-beginning) (region-end))
+           (insert (org-make-link-string clipboard-url region-content)))
+          ((and clipboard-url (not point-in-link))
+           (insert (org-make-link-string
+                    clipboard-url
+                    (read-string "title: "
+                                 (with-current-buffer (url-retrieve-synchronously clipboard-url)
+                                   (dom-text (car
+                                              (dom-by-tag (libxml-parse-html-region
+                                                           (point-min)
+                                                           (point-max))
+                                                          'title))))))))
+          (t
+           (call-interactively 'org-insert-link)))))
 #+end_src
 
 ** Show Inline Images
