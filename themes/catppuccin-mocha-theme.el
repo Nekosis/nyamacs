@@ -181,7 +181,27 @@
   (ansi-color-white
    (:foreground ctp-subtext1 :background ctp-subtext1))
   (ansi-color-bright-white
-   (:foreground ctp-subtext0 :background ctp-subtext0))))
+   (:foreground ctp-subtext0 :background ctp-subtext0))
+  ;; Company
+  (company-echo-common (:foreground ctp-base :background ctp-text))
+  (company-preview (:background ctp-surface0))
+  (company-preview-common
+   (:background ctp-surface0 :foreground ctp-green))
+  (company-preview-search (:background ctp-surface0))
+  (company-scrollbar-bg (:background ctp-surface0))
+  (company-tooltip
+   (:foreground ctp-overlay2 :background ctp-surface0))
+  (company-tooltip-search (:underline t))
+  (company-tooltip-search-selection (:foreground ctp-base))
+  (company-tooltip-selection
+   (:background ctp-red :foreground ctp-mantle))
+  (company-tooltip-mouse (:background ctp-base))
+  (company-tooltip-common (:foreground ctp-text :bold t))
+  (company-tooltip-common-selection (:foreground ctp-mantle :bold t))
+  (company-tooltip-annotation (:foreground ctp-green))
+  (company-tooltip-annotation-selection (:foreground ctp-mantle))
+  (company-tooltip-scrollbar-thumb (:background ctp-surface2))
+  (company-tooltip-scrollbar-track (:background ctp-surface1))))
 
 (provide-theme 'catppuccin-mocha)
 
